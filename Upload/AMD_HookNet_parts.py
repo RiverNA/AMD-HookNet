@@ -58,10 +58,7 @@ class T_Upsample(nn.Module):
         self.conv = Conv_block(in_channels, out_channels, kernel_size, mid_channels=out_channels // 2)
         self.catconv = Conv_block(out_channels * 2, out_channels, kernel_size, mid_channels=out_channels // 2)
 
-        if n_filters == 16:
-            ratio = 2
-        elif n_filters == 32:
-            ratio = 4
+        ratio = 4
         if i == 'up1':
             self.Pre = nn.Conv2d(64 * ratio, 4, kernel_size=1)
             self.queryd = nn.Conv2d(in_channels, in_channels, kernel_size=1)
