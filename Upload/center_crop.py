@@ -54,7 +54,16 @@ for i in range(len(ims)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(images, suffix))
@@ -66,7 +75,16 @@ for i in range(len(mas)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(masks, suffix))
@@ -78,7 +96,16 @@ for i in range(len(imsv)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(imagesv, suffix))
@@ -90,7 +117,16 @@ for i in range(len(masv)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(masksv, suffix))
@@ -102,7 +138,16 @@ for i in range(len(imst)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(imagest, suffix))
@@ -114,7 +159,16 @@ for i in range(len(mast)):
 
     WW = (W // target_size) + 2
     HH = (H // target_size) + 2
-    pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    # pil_img = transforms.CenterCrop((HH * target_size, WW * target_size))(img)
+    crop_height, crop_width = (HH * target_size, WW * target_size)
+    image_width, image_height = img.size
+    padding_ltrb = [
+        int(round((crop_width - image_width) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height) / 2.0)) if crop_height > image_height else 0,
+        int(round((crop_width - image_width + 1) / 2.0)) if crop_width > image_width else 0,
+        int(round((crop_height - image_height + 1) / 2.0)) if crop_height > image_height else 0,
+    ]
+    pil_img = transforms.Pad(padding_ltrb, fill=0)(img)
 
     pil_img = transforms.ToTensor()(pil_img)
     save_image(pil_img, os.path.join(maskst, suffix))
