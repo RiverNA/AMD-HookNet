@@ -1,4 +1,4 @@
-# AMD-HookNet for Glacier Front Segmentation
+# AMD-HookNet
 This repository includes the code for the paper:
  
 **AMD-HookNet for Glacier Front Segmentation**, accepted by *IEEE TGRS*, [paper link](https://ieeexplore.ieee.org/abstract/document/10044700?casa_token=3IBssDCNHvUAAAAA:I09Eu8V-jG-rEXCTf-LQ73Ay3CJcqilJ1na-SKr7FiptD8dGb2R0Inkm9K4UN22ZjucnwvVwiw)
