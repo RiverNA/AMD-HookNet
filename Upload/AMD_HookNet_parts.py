@@ -89,13 +89,13 @@ class T_Upsample(nn.Module):
         item_cropped = z[:, :, int(crop_size):h - int(crop_size), int(crop_size):w - int(crop_size)]
         x = torch.cat((x, item_cropped), dim=1)
         B, C, H, W = x.shape
-        xx = self.queryd(x).view(B, -1, H * W).permute(0, 2, 1)
+        xx = self.queryd(x).view(B, -1, H * W).permute(0, 2, 1).contiguous()
         xxx = self.keyd(x).view(B, -1, H * W)
         _, head_dim, _ = xxx.shape
         energy = torch.bmm(xx, xxx) / (head_dim ** 0.5)
         attention = self.softmaxd(energy)
-        value = self.valued(x).view(B, C, H * W)
-        out = torch.bmm(value, attention).view(B, C, H, W)
+        value = self.valued(x).view(B, C, H * W).permute(0, 2, 1).contiguous()
+        out = torch.bmm(attention, value).permute(0, 2, 1).contiguous().view(B, C, H, W)
         x = self.gammad * out + x
         x = self.up(x)
         x = self.conv(x)
