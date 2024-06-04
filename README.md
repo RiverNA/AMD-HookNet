@@ -32,14 +32,14 @@ If you find this work useful for your research, please consider citing our work:
   doi={10.1109/TGRS.2023.3245419}}
 
 @Article{essd-14-4287-2022,
-AUTHOR = {Gourmelon, N. and Seehaus, T. and Braun, M. and Maier, A. and Christlein, V.},
-TITLE = {Calving fronts and where to find them: a benchmark dataset and methodology for automatic glacier calving front extraction from synthetic aperture radar imagery},
-JOURNAL = {Earth System Science Data},
-VOLUME = {14},
-YEAR = {2022},
-NUMBER = {9},
-PAGES = {4287--4313},
-URL = {https://essd.copernicus.org/articles/14/4287/2022/},
-DOI = {10.5194/essd-14-4287-2022}
+  AUTHOR = {Gourmelon, N. and Seehaus, T. and Braun, M. and Maier, A. and Christlein, V.},
+  TITLE = {Calving fronts and where to find them: a benchmark dataset and methodology for automatic glacier calving front extraction from synthetic aperture radar imagery},
+  JOURNAL = {Earth System Science Data},
+  VOLUME = {14},
+  YEAR = {2022},
+  NUMBER = {9},
+  PAGES = {4287--4313},
+  URL = {https://essd.copernicus.org/articles/14/4287/2022/},
+  DOI = {10.5194/essd-14-4287-2022}
 }
 ```
