@@ -75,8 +75,6 @@ save_path_context = './Sliding_window/Valid/Validation/context_images'
 save_path_target_mask = './Sliding_window/Valid/Validation/target_masks'
 save_path_context_mask = './Sliding_window/Valid/Validation/context_masks'
 
-size = 288
-
 target = transforms.Compose([
     transforms.CenterCrop((size, size)),
     transforms.ToTensor(),
@@ -131,8 +129,6 @@ save_path_target = './Sliding_window/Test/Testing/target_images'
 save_path_context = './Sliding_window/Test/Testing/context_images'
 save_path_target_mask = './Sliding_window/Test/Testing/target_masks'
 save_path_context_mask = './Sliding_window/Test/Testing/context_masks'
-
-size = 288
 
 target = transforms.Compose([
     transforms.CenterCrop((size, size)),
