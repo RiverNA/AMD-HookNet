@@ -162,7 +162,7 @@ def train_net(net,
                         },
                         os.path.join(dir_checkpoint, 'AMD_HookNet_epoch{:03d}.pth'.format(epoch + 1)))
 
-            print('Checkpoint {:03d} saved !\n'.format(epoch + 1))
+            print('Checkpoint {:03d} saved!\n'.format(os.path.join(dir_checkpoint, 'AMD_HookNet_epoch{:03d}.pth'.format(epoch + 1))))
             
         if epoch < epochs - 1:
             scheduler.step()
