@@ -73,9 +73,6 @@ if not os.path.exists(save_path_context):
 if not os.path.exists(save_path_context_mask):
     os.makedirs(save_path_context_mask)
 
-target_size = 288
-interval = target_size * 2
-
 for i in range(len(imagesv)):
     image = Image.open(imagesv[i])
     suffix = imagesv[i].split('/')[-1].split('.')[0]
@@ -119,9 +116,6 @@ if not os.path.exists(save_path_context):
     os.makedirs(save_path_context)
 if not os.path.exists(save_path_context_mask):
     os.makedirs(save_path_context_mask)
-
-target_size = 288
-interval = target_size * 2
 
 for i in range(len(imagest)):
     image = Image.open(imagest[i])
