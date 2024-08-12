@@ -22,7 +22,7 @@ from torch.utils.tensorboard import SummaryWriter
 from dataset import BasicDataset
 from valid_dataset import BasDataset
 from torch.utils.data import DataLoader
-from loss import GeneralizedWassersteinDiceLoss, DiceLoss, FocalLoss, make_one_hot
+from loss import DiceLoss, make_one_hot
 
 dir_checkpoint = cfg.output_path
 
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     cfg.batch_size = 30
     cfg.total_epoch = 300
     eepoch = 0
-    cfg.load = None
+    cfg.load = False
     net = AMD_HookNet(cfg.in_channels, cfg.n_classes, cfg.filter_size, cfg.n_filters)
     net.init_weights()
     net.to(device=device)
