@@ -16,6 +16,7 @@ __C.n_classes = 4
 __C.n_filters = 32               
 __C.filter_size = 3              
 __C.learning_rate = 0.001        
+__C.gamma=0.99
 
 __C.total_epoch = 300            
 __C.steps = 2                    
