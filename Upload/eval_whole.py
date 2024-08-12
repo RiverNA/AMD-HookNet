@@ -81,7 +81,7 @@ def mask_to_image(pre_mask, save_path, suffix):
     out[1] = out[0]
     out[2] = out[0]
     out = out.transpose((1, 2, 0))
-    cv2.imwrite(os.path.join(save_path, suffix + '.png'), out, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+    cv2.imwrite(os.path.join(save_path, suffix + '.png'), out, [int(cv2.IMWRITE_PNG_COMPRESSION), 9])
 
 
 def eval_net(net, loader, device):
