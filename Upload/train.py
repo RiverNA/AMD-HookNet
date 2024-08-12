@@ -184,8 +184,8 @@ if __name__ == '__main__':
     net.init_weights()
     net.to(device=device)
 
-    optimizer = optim.AdamW(net.parameters(), lr=0.001)
-    scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
+    optimizer = optim.AdamW(net.parameters(), lr=cfg.learning_rate)
+    scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=cfg.gamma)
 
     if cfg.load:
         checkpoints = torch.load(cfg.load, map_location=device)
