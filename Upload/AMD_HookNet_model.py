@@ -11,7 +11,7 @@ class AMD_HookNet(nn.Module):
         self.filter_size = filter_size
         self.n_filters = n_filters
         
-        # context branch
+        # Context branch
         self.c_first = Conv_block(n_channels, n_filters)
         self.c_down1 = Downsample(n_filters, n_filters * 2)
         self.c_down2 = Downsample(n_filters * 2, n_filters * 4)
@@ -25,7 +25,7 @@ class AMD_HookNet(nn.Module):
         
         self.c_out = Output(n_filters, n_classes)
 
-        # target branch
+        # Target branch
         self.t_first = Conv_block(n_channels, n_filters)
         self.t_down1 = Downsample(n_filters, n_filters * 2)
         self.t_down2 = Downsample(n_filters * 2, n_filters * 4)
