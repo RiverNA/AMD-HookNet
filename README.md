@@ -1,7 +1,7 @@
 # AMD-HookNet
 This repository includes the codes for the paper:
 
-[**AMD-HookNet for Glacier Front Segmentation**](https://ieeexplore.ieee.org/abstract/document/10044700?casa_token=3IBssDCNHvUAAAAA:I09Eu8V-jG-rEXCTf-LQ73Ay3CJcqilJ1na-SKr7FiptD8dGb2R0Inkm9K4UN22ZjucnwvVwiw),   accepted by *IEEE TGRS*
+[**AMD-HookNet for Glacier Front Segmentation**](https://ieeexplore.ieee.org/abstract/document/10044700?casa_token=3IBssDCNHvUAAAAA:I09Eu8V-jG-rEXCTf-LQ73Ay3CJcqilJ1na-SKr7FiptD8dGb2R0Inkm9K4UN22ZjucnwvVwiw),  accepted by *IEEE TGRS*
 
 Fei Wu · Nora Gourmelon · Thorsten Seehaus · Jianlin Zhang · Matthias Braun · Andreas Maier · Vincent Christlein
 
