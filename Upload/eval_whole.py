@@ -17,8 +17,6 @@ from torchvision import transforms
 import sklearn.metrics
 from torchvision.utils import save_image
 
-test_save = './patch_save'
-
 
 def mask_preprocess(pil_img):
     img_nd = np.array(pil_img)
@@ -89,6 +87,7 @@ def eval_net(net, loader, device):
     mask_type = torch.float32 if net.n_classes <= 2 else torch.int64
     n_val = len(loader)
     iou_ratio = 0
+    test_save = os.path.join(os.environ['TMPDIR'], 'patch_save')
     if not os.path.exists(test_save):
         os.makedirs(test_save)
     with tqdm(total=n_val, desc='Round', unit='img') as pbar:
@@ -130,9 +129,9 @@ def eval_net(net, loader, device):
                 iou_ratio += iou
             pbar.update()
 
-    groundtruth = './Validation/groundtruth'
-    whole_save = './whole_save'
-
+    groundtruth = os.path.join(os.environ['TMPDIR'], 'ori')
+    whole_save = os.path.join(os.environ['TMPDIR'], 'whole_save')
+    
     masks_ground = sorted(glob.glob(os.path.join(groundtruth, '*.png')))
 
     totensor = transforms.Compose([
@@ -148,7 +147,7 @@ def eval_net(net, loader, device):
     for i in range(len(masks_ground)):
         ground = masks_ground[i]
         suffix = ground.split('/')[-1].split('.')[0][0:-6]
-        img = Image.open(ground)
+        img = Image.open(ground).convert("RGB")
         W, H = img.size
         HH = H // 288 + 1
         WW = W // 288 + 1
@@ -156,7 +155,7 @@ def eval_net(net, loader, device):
         test = sorted(glob.glob(os.path.join(test_save, suffix + '*.png')))
         all = []
         for j in range(len(test)):
-            ti = Image.open(test[j])
+            ti = Image.open(test[j]).convert("RGB")
             all.append(ti)
 
         whole = Image.new('RGB', (WW * length, HH * length))
