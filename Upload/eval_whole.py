@@ -150,7 +150,7 @@ def eval_net(net, loader, device):
         img = Image.open(ground).convert("RGB")
         W, H = img.size
         test = sorted(glob.glob(os.path.join(test_save, suffix + '*.png')))
-        ength = Image.open(test[0]).convert("RGB").size[0]
+        length = Image.open(test[0]).convert("RGB").size[0]
         HH = H // length + 1
         WW = W // length + 1
         all = []
