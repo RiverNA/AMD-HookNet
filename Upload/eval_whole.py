@@ -110,7 +110,7 @@ def eval_net(net, loader, device):
                 iou_ratio += iou
             else:
                 IOU = torchmetrics.IoU(num_classes=net.n_classes + 1, absent_score=1)
-                pred = torch.sigmoid(masks_pred[1])
+                pred = torch.sigmoid(masks_pred[1].squeeze(dim=1))
                 pred = (pred > 0.5).float()
                 iou = IOU(pred.cpu().detach(), true_masks_target.type(torch.int64).cpu().detach())
                 iou_ratio += iou
