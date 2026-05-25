@@ -2,20 +2,16 @@ import torch
 import torch.nn.functional as F
 import os
 import torchmetrics
-
-from tqdm import tqdm
-from config import cfg
-from dice_loss import dice_coeff
-from loss import make_one_hot
 import logging
 import glob
 import sys
 import cv2
-from PIL import Image
-import numpy as np
-from torchvision import transforms
 import sklearn.metrics
+import numpy as np
 from torchvision.utils import save_image
+from torchvision import transforms
+from PIL import Image
+from tqdm import tqdm
 
 
 def mask_preprocess(pil_img):
@@ -100,48 +96,36 @@ def eval_net(net, loader, device):
             imgs_target = imgs_target.to(device=device, dtype=torch.float32)
             imgs_context = imgs_context.to(device=device, dtype=torch.float32)
             true_masks_target = true_masks_target.to(device=device, dtype=mask_type)
-
+            
             with torch.no_grad():
                 masks_pred = net(imgs_context, imgs_target)
-
-            if net.n_classes > 2:
-                IOU = torchmetrics.IoU(num_classes=4, absent_score=1)
-
+                
+            if net.n_classes >= 2:
+                IOU = torchmetrics.IoU(num_classes=net.n_classes, absent_score=1)
                 prd_target = F.log_softmax(masks_pred[1], dim=1)
                 prd_target = torch.argmax(prd_target, dim=1)
-
                 mask_to_image(prd_target, test_save, suffix)
-
                 c, h, w = true_masks_target.shape
                 iou = IOU(prd_target.cpu().detach(), true_masks_target.cpu().detach())
                 iou_ratio += iou
-                correct = torch.where(prd_target == true_masks_target)
-                new = torch.zeros([c, h, w])
-                new[correct] = 1
-                success_ratio += torch.sum(new) / (c * h * w)
-
             else:
-                IOU = torchmetrics.IoU(num_classes=2, absent_score=1)
+                IOU = torchmetrics.IoU(num_classes=net.n_classes + 1, absent_score=1)
                 pred = torch.sigmoid(masks_pred[1])
                 pred = (pred > 0.5).float()
-                success_ratio += dice_coeff(pred.cpu().detach(), true_masks_target.cpu().detach()).item()
                 iou = IOU(pred.cpu().detach(), true_masks_target.type(torch.int64).cpu().detach())
                 iou_ratio += iou
             pbar.update()
 
     groundtruth = os.path.join(os.environ['TMPDIR'], 'ori')
     whole_save = os.path.join(os.environ['TMPDIR'], 'whole_save')
-    
+    if not os.path.exists(whole_save):
+        os.makedirs(whole_save)
+        
     masks_ground = sorted(glob.glob(os.path.join(groundtruth, '*.png')))
-
     totensor = transforms.Compose([
         transforms.ToTensor(),
     ])
-
-    if not os.path.exists(whole_save):
-        os.makedirs(whole_save)
-
-    IOU = torchmetrics.IoU(num_classes=4, absent_score=1, reduction='none')
+    IOU = torchmetrics.IoU(num_classes=net.n_classes, absent_score=1, reduction='none')
     iou_ratio = 0
     success_ratio = 0
     for i in range(len(masks_ground)):
@@ -157,34 +141,25 @@ def eval_net(net, loader, device):
         for j in range(len(test)):
             ti = Image.open(test[j]).convert("RGB")
             all.append(ti)
-
         whole = Image.new('RGB', (WW * length, HH * length))
-
         for k in range(len(all)):
             whole.paste(all[k],
                         (length * (k % WW), length * (k // WW), length * (k % WW + 1), length * (k // WW + 1)))
-
         whole = transforms.CenterCrop((H, W))(whole)
-
         wholes = totensor(whole)
         save_image(wholes, os.path.join(whole_save, suffix + '.png'))
-
         img = whole_preprocess(img)
         whole = whole_preprocess(whole)
-
         h, w = whole.shape
-
         iou = IOU(torch.from_numpy(whole).type(torch.int64), torch.from_numpy(img).type(torch.int64))
         iou_ratio += iou
         correct = np.where(whole == img)
-
         new = np.zeros([h, w])
         new[correct] = 1
         success_ratio += np.sum(new) / (h * w)
-
     iou_ratio = iou_ratio / len(masks_ground)
     ave_iou = sum(iou_ratio) / len(iou_ratio)
     success_ratio = success_ratio / len(masks_ground)
-
     net.train()
+    
     return success_ratio, ave_iou, iou_ratio
