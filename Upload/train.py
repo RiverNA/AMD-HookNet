@@ -54,7 +54,7 @@ def train_net(net,
               device,
               optimizer,
               scheduler,
-              eepoch,
+              epoch,
               epochs=5,
               batch_size=128,
               lr=0.001,
@@ -79,7 +79,7 @@ def train_net(net,
     criterion1 = nn.CrossEntropyLoss()
     criterion2 = DiceLoss()
 
-    for epoch in range(eepoch, epochs):
+    for epoch in range(epoch, epochs):
         net.train()
         epoch_loss = 0
         with tqdm(total=n_dataset, desc=f'Epoch {epoch + 1}/{epochs}', unit='img') as pbar:
@@ -99,12 +99,10 @@ def train_net(net,
                     big_mask = masks[-1]
                     small_mask = F.avg_pool2d(big_mask, 2)
                     masks.append(small_mask)
-
                 small = masks[1:]
 
                 imgs_target = imgs_target.to(device=device, dtype=torch.float32)
                 imgs_context = imgs_context.to(device=device, dtype=torch.float32)
-
                 mask_type = torch.float32 if net.n_classes <= 2 else torch.int64
                 true_masks_target = true_masks_target.to(device=device, dtype=mask_type)
                 true_masks_context = true_masks_context.to(device=device, dtype=mask_type)
@@ -178,29 +176,29 @@ if __name__ == '__main__':
     cfg.n_filters = 32
     cfg.batch_size = 30
     cfg.total_epoch = 300
-    eepoch = 0
-    cfg.load = False
+    epoch = 0
     net = AMD_HookNet(cfg.in_channels, cfg.n_classes, cfg.filter_size, cfg.n_filters)
     net.init_weights()
     net.to(device=device)
 
     optimizer = optim.AdamW(net.parameters(), lr=cfg.learning_rate)
     scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=cfg.gamma)
-
+    cfg.load = None
+    
     if cfg.load:
         checkpoints = torch.load(cfg.load, map_location=device)
         net.load_state_dict(checkpoints['net_state_dict'])
         optimizer.load_state_dict(checkpoints['optimizer_state_dict'])
-        eepoch = checkpoints['epoch']
+        epoch = checkpoints['epoch']
         scheduler.load_state_dict(checkpoints['lr_schedule'])
-        scheduler.last_epoch = eepoch
+        scheduler.last_epoch = epoch
         logging.info(f'Model loaded from {cfg.load}')
 
     try:
         train_net(net=net,
                   optimizer=optimizer,
                   scheduler=scheduler,
-                  eepoch=eepoch,
+                  epoch=epoch,
                   epochs=cfg.total_epoch,
                   batch_size=cfg.batch_size,
                   lr=cfg.learning_rate,
