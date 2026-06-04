@@ -102,9 +102,9 @@ def eval_net(net, loader, device):
                 
             if net.n_classes >= 2:
                 IOU = torchmetrics.IoU(num_classes=net.n_classes, absent_score=1)
-                prd_target = F.log_softmax(masks_pred[1], dim=1)
-                prd_target = torch.argmax(prd_target, dim=1)
-                mask_to_image(prd_target, test_save, suffix)
+                pred = F.log_softmax(masks_pred[1], dim=1)
+                pred = torch.argmax(pred, dim=1)
+                mask_to_image(pred, test_save, suffix)
                 c, h, w = true_masks_target.shape
                 iou = IOU(prd_target.cpu().detach(), true_masks_target.cpu().detach())
                 iou_ratio += iou
@@ -112,6 +112,7 @@ def eval_net(net, loader, device):
                 IOU = torchmetrics.IoU(num_classes=net.n_classes + 1, absent_score=1)
                 pred = torch.sigmoid(masks_pred[1].squeeze(dim=1))
                 pred = (pred > 0.5).float()
+                mask_to_image(pred, test_save, suffix)
                 iou = IOU(pred.cpu().detach(), true_masks_target.type(torch.int64).cpu().detach())
                 iou_ratio += iou
             pbar.update()
