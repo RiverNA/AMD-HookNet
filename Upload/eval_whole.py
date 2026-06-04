@@ -106,7 +106,7 @@ def eval_net(net, loader, device):
                 pred = torch.argmax(pred, dim=1)
                 mask_to_image(pred, test_save, suffix)
                 c, h, w = true_masks_target.shape
-                iou = IOU(prd_target.cpu().detach(), true_masks_target.cpu().detach())
+                iou = IOU(pred.cpu().detach(), true_masks_target.cpu().detach())
                 iou_ratio += iou
             else:
                 IOU = torchmetrics.IoU(num_classes=net.n_classes + 1, absent_score=1)
